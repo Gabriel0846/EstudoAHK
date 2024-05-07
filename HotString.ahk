@@ -1,8 +1,8 @@
 #SingleInstance Force
-;:*:bd::Bom dia!
+:*:bd::Bom dia!
 
 ;:*:teste::
 ;MsgBox, bom dia!
 
-:*:google::
-Run, www.google.com
+;:*:google::
+;Run, www.google.com
