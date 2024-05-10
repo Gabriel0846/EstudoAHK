@@ -7,7 +7,7 @@ MsgBox, contagem finalizada!
 Return
 
 B::
-arquivo := FileOpen("C:\Users\Terminal17\Documents\GitHub\EstudoAHK\teste.txt", "rw")
+arquivo := FileOpen("C:\Users\NomedoUsuario\Documents\GitHub\EstudoAHK\teste.txt", "rw")
 Loop, 15
 {
     arquivo.Write(A_Index . "`n")
