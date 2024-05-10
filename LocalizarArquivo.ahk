@@ -1,28 +1,58 @@
-#SingleInstance, Force
-
-SetBatchLines, -1
-
 FileSelectFolder, diretorio, C:, 0, Escolha um diretorio
 
-InputBox, formato, Busca de arquivos, Digite um formato,, 200, 130
-if (ErrorLevel || formato = "")
+InputBox, formato, Localizador de arquivos, Digite um formato,, 250, 130,,,,, Exemplo: txt`, jpg`, png`, gif`, exe`, etc...
+formato := Trim(formato)
+if formato is Space
+{
+    ExitApp
+}
+
+if (formato = "" || formato = "Exemplo: txt, jpg, png, gif, exe, etc..." || ErrorLevel)
 {
     ExitApp
 }
 
 arquivo := []
 
+SetBatchLines, -1
+
+ToolTip, Localizando arquivos...
+
 Loop, Files, %diretorio%*.%formato%, R
 {
-    ToolTip, Arquivos localizados: %A_Index%
-    Arquivos.Push(A_LoopFileFullPath)
+    ToolTip % "Arquivos " . formato . " encontrados - " . A_Index
+    arquivos.Push(A_LoopFileFullPath)
+    ; Adiciona esta linha para depurar
+    MsgBox, 0, Debug, Arquivo encontrado: %A_LoopFileFullPath%
 }
 
-arquivo := FileOpen(A_ScriptDir,"\arquivos-localizados.txt", "W")
+ToolTip
 
-Loop, % arquivos.Length()
+if (arquivos[1])
 {
-    arquivo.Write(arquivos[A_Index], "`n`n")
+    MsgBox, 64, Sucesso, % "Foram encontrados " . arquivos.Length() . " arquivo(s) com o formato " . formato
+    MsgBox, 36, Aviso, Deseja visualizar os arquivos encontrados?
+    IfMsgBox, Yes
+    {
+        arquivo := FileOpen(A_ScriptDir . "\arquivos_" . formato . "_localizados.txt", "W")
+        Loop % arquivos.Length()
+        {
+            arquivo.Write(arquivos[A_Index] . "`r`n")
+        }
+    }
+    Else
+    {
+        ExitApp
+    }
+
+    Run, %A_ScriptDir%\arquivos_%formato%_localizados.txt
+    ExitApp
+}
+Else
+{
+    MsgBox, 48, Aviso, Não foram encontrados arquivos para o formato buscado!
+    ExitApp
 }
 
-MsgBox, Fim
+Esc::
+ExitApp
