@@ -33,3 +33,14 @@ UmDiaFormatado := SubStr(UmDia, 7, 2) SubStr(UmDia, 5, 2) SubStr(UmDia, 1, 4)
 ; Insere a data de um dia atrás no local do cursor
 SendInput, %UmDiaFormatado%
 return
+
+
+^1::
+#NoEnv
+SendMode Input
+SetWorkingDir %A_ScriptDir%
+
+CaminhoArquivo := ""
+
+Run, "%CaminhoArquivo%"
+return
